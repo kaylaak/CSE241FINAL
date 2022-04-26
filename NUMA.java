@@ -3,6 +3,8 @@ Kayla Kraft
 CSE 241 Final Project
 Main File 
 //no oop in here
+
+CONNECTED TO GIT
 */
 
 import java.util.Scanner;
@@ -18,7 +20,8 @@ public class NUMA {
 
     public static void main(String [] args){
         Scanner scan = new Scanner(System.in);
-        System.out.println("Welcome to NUMA apartments.\n Please sign in with your username and password.");
+
+        System.out.println("Welcome to NUMA apartments.\n\n\nPlease sign in with your username and password.");
      
         int check = 0;
         String userN = "";
