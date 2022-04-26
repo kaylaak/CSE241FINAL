@@ -1,0 +1,31 @@
+Kayla Kraft
+CSE 241
+Final Project
+README.me
+
+How to run program:
+1. javac *.java (this compiles the program)
+2. jar cfmv NUMA.jar Manifest.txt NUMA.class PM.class Tenant.class BusinessManager.class
+    (this creates .jar file)
+3. java -jar NUMA.jar (this runs the jar file)
+
+
+About:
+This program acts as a replica software that allows users to interact with
+an established database. We connect to oracle with a database already created to 
+allow users to fully interact. We import java.sql.* which allows us to use SQL with
+the database we connected in conjuction with java. I also created the following files
+to represent each interface.
+    1. Properties Manager (PM.java)
+        First, we connect the database inside this file, and then we give the user 4 options.
+        Once the user selects an option we call then call each sql statement regarding each choice. I premade the sql statments in each method
+        to help readbility. 
+    2. Tenant (Tenant.java)
+        When the user selects Tenant, they are able to check payment status, make a payment,
+        add a person to their rental unit, set a move out date or update data. 
+        The same as PM.java, I will premake the SQL and add the user info that they want.
+    3. BusinessManager (BusinessManager.java)
+        My last file is the BusinessManager. Unlike the other files BuinsessManager does not take
+        user input. You have three options and once selected entires will print out after a few user input.
+    
+    

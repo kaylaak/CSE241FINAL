@@ -1,0 +1,2 @@
+Main-class: NUMA
+Class-Path: ojdbc8.jar
