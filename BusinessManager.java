@@ -28,6 +28,11 @@ public class BusinessManager {
     PreparedStatement peopleFinder;
 
 
+    int numOfB;
+    int numOfB2;
+    int arr[];
+    int total;
+
     //default constructor
     public BusinessManager(){
 
@@ -41,7 +46,7 @@ public class BusinessManager {
 
     //asking BM what he wants to do
     //1 shows amenities to user selected building
-    //2 option to combine data from the two
+    //2 option to combine data from the two to find empty rooms
     //3 Offers to locate phone number of tenant
     //4 leaves program
     public int setUp(Scanner scan){
@@ -81,6 +86,8 @@ public class BusinessManager {
                 //choice 1,2 or 3 uses switch statements
                 switch(userinput){
 
+
+                    //offers to show manager amenities in each building
                     case 1:
                     choice = choiceProp(scan);
                     while (choice == 4){
@@ -119,6 +126,48 @@ public class BusinessManager {
 
                         break;
 
+                        //offers to show the combined empty units
+                        case 2: 
+
+                        numOfBuilding(scan);
+                        numOfB2 = numOfB;
+                        int j =0;
+                        arr= new int[100];
+                        System.out.println("Enter key number of Property you would like to search.");
+                        for(int i =0; i < numOfB2; i++){
+                            int a = scan.nextInt();
+                            PreparedStatement prop = conn.prepareStatement("select key from properties where key = (?)");
+                            prop.setInt(1, a);
+                        rSet = prop.executeQuery();
+                        if (rSet.next() == false) {
+                            System.out.println("Error. Try again");
+                            numOfB2++;
+                        } else {
+                            a = rSet.getInt(1);
+                            arr[j++] = a;
+                        }
+                        }
+
+
+                        for(int i = 0; i<numOfB;i++){
+                            int a =0;
+                            PreparedStatement count = conn.prepareStatement("select COUNT(apt_num)from apartment where key = (?) and avabile = 1");
+                            count.setInt(1, arr[i]);
+                            rSet = count.executeQuery();
+                            if (rSet.next() == false) {
+                                System.out.println("Error. Try again");
+                            } else {
+                               a = rSet.getInt(1);
+                            }
+
+                            total += a;
+                        }
+
+
+                        System.out.println("The total rooms that are empty in your selected buildings are " + total);
+                        break;
+
+                        //allows manager to find the tenants phone number
                         case 3:
 
                         findPeople(scan);
@@ -155,14 +204,8 @@ public class BusinessManager {
 
     //allows user to choice property number
     public int choiceProp(Scanner scan){
-        System.out.println("Would you like property 1, property 2, property 3?");
+        System.out.println("What is the key code of the property you want to search");
         int choice = scan.nextInt();
-        if(choice>0 || choice <3){
-            return choice;
-        } else {
-            System.out.println("Try again. 1,2,3");
-            choice = scan.nextInt();
-        }
 
         return choice;
     }
@@ -200,6 +243,14 @@ public class BusinessManager {
     public void phoneNumSOP(){
         System.out.println("Your tenant " + fN + " " + lN + " phone number is " + phoneNum);
     }
+
+
+    public void numOfBuilding(Scanner scan){
+        System.out.println("How many buildings would you like to search");
+        numOfB = scan.nextInt();
+    }
+
+    
 
 
     //cancels program

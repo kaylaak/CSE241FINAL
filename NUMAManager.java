@@ -68,7 +68,10 @@ public class NUMAManager {
         try (Connection conn = DriverManager.getConnection(
             "jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", userN, passW);
             Statement stmt = conn.createStatement();) {
+                
                 userinput = setUp(scan);
+                while(userinput != 2){
+                
 
                 //asks Manager where their building is located
                 state(scan);
@@ -143,8 +146,10 @@ public class NUMAManager {
             
                     rSet = amenities.executeQuery();
 
+                    System.out.println("Building has been entered. Would you like to enter another building?");
+                    userinput = setUp(scan);
 
-
+                }
                 conn.close();
             } catch (SQLException sqle) {
                 System.out.println("SQLException : " + sqle);
