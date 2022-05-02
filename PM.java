@@ -45,6 +45,8 @@ public class PM {
 
     ResultSet rSet;
 
+    Calendar cal;
+
     
 
 
@@ -92,7 +94,7 @@ public class PM {
             Statement stmt = conn.createStatement();) {
 
                 int user;
-                
+
                 do{
                 switch(user = setUp(scan)){
 
@@ -115,6 +117,7 @@ public class PM {
                     visitData.setString(4, lN);
 
                     rSet = visitData.executeQuery();
+
 
                     
                     break;
@@ -256,7 +259,7 @@ public class PM {
                 case 4: 
                     cancel();
                 }
-            }while( user !=4);
+            }while(user !=4);
                 
                 conn.close();
             } catch (SQLException sqle) {
@@ -324,6 +327,11 @@ public class PM {
             }
 
         day = Date.valueOf(dayy);
+        cal = Calendar.getInstance();
+        cal.setTime(day);
+        cal.add(Calendar.YEAR, 2);
+
+        
     }
 
     //method that asks for all information for case two

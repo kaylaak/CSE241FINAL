@@ -1,8 +1,9 @@
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.*;
+import java.sql.*;
+import java.sql.Date;
+
+
 
 public class Tenant {
 
@@ -10,7 +11,14 @@ public class Tenant {
     String userN;
     String passW;
 
+    int userinput;
+
+    String fN;
+    String lN;
+
     public Tenant(){
+        userN =  " ";
+        passW = "";
 
     }
 
@@ -23,7 +31,6 @@ public class Tenant {
         System.out.println("What would you like to do?");
         System.out.println("1. Check Payment Status");
         System.out.println("2. Make rental payment");
-        System.out.println("3. Add person/pet");
         System.out.println("4. Set move-out date");
         System.out.println("5. Update personal-data");
         System.out.println("6. Exit");
@@ -33,7 +40,7 @@ public class Tenant {
             userinput = scan.nextInt();
         }
 
-        if(userinput == 4){
+        if(userinput == 6){
             cancel();
         }
 
@@ -46,7 +53,26 @@ public class Tenant {
         try (Connection conn = DriverManager.getConnection(
             "jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", userN, passW);
             Statement stmt = conn.createStatement();) {
-                setUp(scan);
+                name(scan);
+                userinput = setUp(scan);
+
+                System.out.println("What is the potential tenant's date of visit?(yyyy-mm-dd)");
+        String dayy = scan.next();
+
+        if(!(dayy.matches("\\d{4}-\\d{2}-\\d{2}"))){
+            System.out.println("Date input is not expected. Try again (yyyy-mm-dd)\n\n");
+            System.out.println("What is the potential tenant's date of visit?(yyyy-mm-dd)");
+            dayy = scan.next();
+            }
+
+        Date day = Date.valueOf(dayy);
+     
+                switch(userinput){
+
+                    case 1: 
+
+
+                }
 
                 conn.close();
             } catch (SQLException sqle) {
@@ -55,6 +81,15 @@ public class Tenant {
     }
     
 
+
+    public void name(Scanner scan){
+        System.out.println("What is your first name?");
+        fN = scan.nextLine();
+        System.out.println("What is your last name?");
+        lN = scan.nextLine();
+
+
+    }
 
     public void cancel(){
         System.out.println("Goodbye.");

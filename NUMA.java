@@ -58,6 +58,11 @@ public class NUMA {
             BusinessManager manager = new BusinessManager(userN, passW);
             manager.connect(userN, passW);
             break;
+
+            case 4:
+            NUMAManager NUMAmanager = new NUMAManager(userN, passW);
+
+            NUMAmanager.connect(userN, passW);
         }
 
         
@@ -70,7 +75,7 @@ public class NUMA {
         System.out.println("3. Buisness Manager");
 
         int userinput = scan.nextInt();
-        while(!(userinput>0) || !(userinput<4)){
+        while(!(userinput>0) || !(userinput<5)){
             System.out.println("Please try again.");
             userinput = scan.nextInt();
         } 
