@@ -42,24 +42,25 @@ public class NUMA {
         
         switch(userinput){
             case 1:
-            System.out.println("Welcome Property Manager.");
+            System.out.println("Welcome Property Manager\n");
             PM property = new PM(userN, passW);
             property.connect(userN, passW);
             break;
 
             case 2:
-            System.out.println("Welcome Tenant");
+            System.out.println("Welcome Tenant\n");
             Tenant user = new Tenant(userN,passW);
             user.connect(userN,passW);
             break;
 
             case 3:
-            System.out.println("Welcome Business Managaer");
+            System.out.println("Welcome Business Managaer\n");
             BusinessManager manager = new BusinessManager(userN, passW);
             manager.connect(userN, passW);
             break;
 
             case 4:
+            System.out.println("Welcome NUMA Manager\n");
             NUMAManager NUMAmanager = new NUMAManager(userN, passW);
 
             NUMAmanager.connect(userN, passW);
@@ -73,6 +74,7 @@ public class NUMA {
         System.out.println("1. Property Manager");
         System.out.println("2. Tenant");
         System.out.println("3. Buisness Manager");
+        System.out.println("4. NUMA Manager");
 
         int userinput = scan.nextInt();
         while(!(userinput>0) || !(userinput<5)){

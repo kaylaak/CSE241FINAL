@@ -24,6 +24,7 @@ public class NUMAManager {
     int bathR;
     int sqft; 
     int room_num;
+    int avabile;
     PreparedStatement randApart; 
 
     int gym;
@@ -68,11 +69,14 @@ public class NUMAManager {
             "jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", userN, passW);
             Statement stmt = conn.createStatement();) {
                 userinput = setUp(scan);
+
+                //asks Manager where their building is located
                 state(scan);
                 city(scan);
                 address();
                
 
+                //inserts address into oracle
                 prop = conn.prepareStatement("insert into PROPERTIES (city,state,address) values ((?),(?),(?))");
                     prop.setString(1, city);
                     prop.setString(2, state);
@@ -82,6 +86,7 @@ public class NUMAManager {
                     
                     insertProp();
 
+                    //grabs key # for future SQL entries
                     prop = conn.prepareStatement("Select key from PROPERTIES where address = (?)");
                     prop.setString(1, address);
         
@@ -95,39 +100,48 @@ public class NUMAManager {
 
                     }
 
+                    //asks manager how many rooms does he/she wants
                     howManyRooms();
 
                     
+                    //uses that number (above) and generates that number of room using randoming generated numbers
+                    //uses avaiable to indicate to other classes if it is open for renting
                     for(int i = 0; i < room; i++){
 
                         bedR = randR();
                         bathR = randR();
                         room_num = randRoomNum();
                         sqft = randSqft();
+                        avabile = Available();
 
 
-                        randApart = conn.prepareStatement("insert into apartment (apt_num, key, num_bed, num_bath, sqft) values ((?),(?),(?),(?),(?))");
+                        randApart = conn.prepareStatement("insert into apartment (apt_num, key, num_bed, num_bath, sqft,avabile) values ((?),(?),(?),(?),(?),(?))");
                     randApart.setInt(1, room_num);
                     randApart.setInt(2, key);
                     randApart.setInt(3, bedR);
                     randApart.setInt(4, bathR);
                     randApart.setInt(5, sqft);
+                    randApart.setInt(6, avabile);
             
                     rSet = randApart.executeQuery();
 
                     }
 
+
+                    //asks manager what amenities does the building have
                     gym(scan);
                     pool(scan);
                     doorman(scan);
 
-                    amenities = conn.prepareStatement("insert into amenities (key, pool, gym, doorman) values ((?),(?),(?),(?))");
+
+
+                    amenities = conn.prepareStatement("insert into amenities(key, pool, gym, doorman) values ((?),(?),(?),(?))");
                     amenities.setInt(1, key);
                     amenities.setInt(2, pool);
                     amenities.setInt(3, gym);
                     amenities.setInt(4, doorman);
             
-                    rSet = randApart.executeQuery();
+                    rSet = amenities.executeQuery();
 
 
 
@@ -231,6 +245,19 @@ public class NUMAManager {
         SQft = 100 +rnd.nextInt(2000);
 
         return SQft;
+    }
+
+
+    //returns 2 or 1
+    //2 indicates apartment is full
+    //1 indicates apartment is empty 
+    public int Available(){
+        int ocupied; 
+
+        Random rnd = new Random();
+        ocupied = 1 + rnd.nextInt(2);
+
+        return ocupied;
     }
 
 
