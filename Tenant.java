@@ -16,8 +16,12 @@ public class Tenant {
 
     ResultSet rSet;
     PreparedStatement leaseN;
+    PreparedStatement payment;
 
     int lease_num;
+    int trans_num;
+
+    int amount;
 
     public Tenant() {
         userN = " ";
@@ -75,6 +79,19 @@ public class Tenant {
                 }
             }
 
+            leaseN = conn.prepareStatement(
+                        "select transaction_num from lease where lease_num = (?)");
+                leaseN.setInt(1, lease_num);
+                rSet = leaseN.executeQuery();
+            if (rSet.next() == false) {
+                    System.out.println("Error.");
+                } else {
+                    trans_num = rSet.getInt(1);
+                }
+
+
+
+
             System.out.println("Hello " + fN +", welcome to NUMA Apartments!\n\n");
             userinput = setUp(scan);
 
@@ -82,7 +99,36 @@ public class Tenant {
                 switch (userinput) {
 
                     case 1:
+                    PreparedStatement rent;
+                    rent = conn.prepareStatement("select month_rent from lease where lease_num = (?)");
+                        rent.setInt(1, lease_num);
+                        rSet = rent.executeQuery();
+
+                        if(rSet.next()==false){
+                            System.out.println("Nothing. I guess rent is free XD");
+                        } else {
+                            System.out.println("Your outstanding balance is: " + rSet.getInt(1));
+                            System.out.println("**Remember to pay your balance every month, or you might get evicted!**");
+                        }
+
+
+                    break;
+
+                    case 2:
+                    System.out.println("How would you like to pay \n 1. Bank\n2. Check\n3. Vemno");
+                    int num = payMent(scan);
+                    if(num == 1){
+                        int bnum = bank(scan);
+                        payment = conn.prepareStatement("INSERT INTO bank_acct (amount, transaction_num, bank_num) VALUES ((?), (?), (?))");
+                        payment.setInt(1, amount);
+                        payment.setInt(2, trans_num);
+                        payment.setInt(3, bnum);
+                        rSet = payment.executeQuery();
+                    } else if (num ==2){
+                        
+                    }
                     
+
 
                 }
             }
@@ -100,6 +146,56 @@ public class Tenant {
 
     }
 
+
+    public int payMent(Scanner scan){
+        System.out.println("How would you like to pay \n 1. Bank\n2. Check\n3. Vemno");
+        int num = scan.nextInt();
+        int t = 1;
+        while(t ==1){
+            if(num>3 || num < 1){
+                System.out.println("Try again.");
+                num = scan.nextInt();
+            } else {
+                t =0;
+                break;
+            }
+        }
+
+        return num;
+    }
+
+    public int bank(Scanner scan){
+        System.out.println("You have chosen bank. Please enter the following information.");
+        System.out.println("Enter your bank number(10 digits)");
+        int bank = scan.nextInt();
+
+        System.out.println("How much you would like to pay?");
+        amount = scan.nextInt();
+
+        return bank;
+    }
+
+    public int check(Scanner scan){
+        System.out.println("You have chosen check. Please enter the following information.");
+        System.out.println("Enter the check number(10 digits)");
+        int check = scan.nextInt();
+
+        System.out.println("How much you would like to pay?");
+        amount = scan.nextInt();
+
+        return check;
+    }
+
+    public int vemno(Scanner scan){
+        System.out.println("You have chosen vemno. Please enter the following information.");
+        System.out.println("Enter your userName");
+        int vemno = scan.nextInt();
+
+        System.out.println("How much you would like to pay?");
+        amount = scan.nextInt();
+
+        return vemno;
+    }
     public void cancel() {
         System.out.println("Goodbye.");
         System.exit(0);

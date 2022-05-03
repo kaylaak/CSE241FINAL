@@ -170,12 +170,12 @@ public class PM {
                         serviceCosts.setString(3, prev_add);
                         rSet = serviceCosts.executeQuery();
 
-                        serviceCosts = conn.prepareStatement("delete from potential_tent where firstN = (?) AND lastN = (?)");
+                        serviceCosts = conn
+                                .prepareStatement("delete from potential_tent where firstN = (?) AND lastN = (?)");
                         serviceCosts.setString(1, fN);
                         serviceCosts.setString(2, lN);
                         rSet = serviceCosts.executeQuery();
 
-                        System.out.println(serviceCost);
                         serviceCosts = conn
                                 .prepareStatement("select lease_num from tenant where firstN = (?) AND lastN = (?)");
                         serviceCosts.setString(1, fN);
@@ -195,8 +195,7 @@ public class PM {
                         rSet = serviceCosts.executeQuery();
 
                         // finding transaction number
-                        serviceCosts = conn
-                                .prepareStatement("select transaction_num from payment where payments = (?)");
+                        serviceCosts = conn.prepareStatement("select transaction_num from payment where payments = (?)");
                         serviceCosts.setInt(1, monthRent);
                         rSet = serviceCosts.executeQuery();
                         if (rSet.next() == false) {
@@ -239,7 +238,6 @@ public class PM {
                                     .println("Apartment Building: " + keynum[i] + ": Apartment Number: " + apartNum[i]);
                         }
 
-                        
                         int index = selectRoom(scan);
 
                         // WORKS WHEN BELOW IS COMMENTED OUT.
