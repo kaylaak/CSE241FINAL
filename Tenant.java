@@ -124,9 +124,7 @@ public class Tenant {
                         payment.setInt(2, trans_num);
                         payment.setInt(3, bnum);
                         rSet = payment.executeQuery();
-                    } else if (num ==2){
-                        
-                    }
+                    } else if (num ==2){}
                     
 
 
