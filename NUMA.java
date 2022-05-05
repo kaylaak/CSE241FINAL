@@ -37,6 +37,8 @@ public class NUMA {
 
         int userinput = menu(scan);
 
+        while(userinput != 5){
+
         switch (userinput) {
             case 1:
                 System.out.println("Welcome Property Manager\n");
@@ -61,7 +63,14 @@ public class NUMA {
                 NUMAManager NUMAmanager = new NUMAManager(userN, passW);
 
                 NUMAmanager.connect(userN, passW);
+                break;
+
+            case 5:
+            cancel();
+            break;
         }
+
+    }
 
     }
 
@@ -71,9 +80,10 @@ public class NUMA {
         System.out.println("2. Tenant");
         System.out.println("3. Buisness Manager");
         System.out.println("4. NUMA Manager");
+        System.out.println("5. Exit program");
 
         int userinput = scan.nextInt();
-        while (!(userinput > 0) || !(userinput < 5)) {
+        while (!(userinput > 0) || !(userinput < 6)) {
             System.out.println("Please try again.");
             userinput = scan.nextInt();
         }
@@ -112,5 +122,11 @@ public class NUMA {
         String password = scan.nextLine();
 
         return password;
+    }
+
+
+    public static void cancel() {
+        System.out.println("Goodbye.");
+        System.exit(0);
     }
 }

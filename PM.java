@@ -277,6 +277,17 @@ public class PM {
                         } else {
                             moveOutDate = rSet.getDate(1);
                         }
+                        int leng = 0;
+                        moveOut = conn.prepareStatement("select lease_length from lease where lease_num = (?)");
+                        moveOut.setInt(1, lease_num);
+                        rSet = moveOut.executeQuery();
+                        if (rSet.next() == false) {
+                            System.out.println("Error.");
+                        } else {
+                            leng = rSet.getInt(1);
+                        }
+
+                        System.out.println(fN + " " + lN + " will move out " + leng + " months from" + moveOutDate);
 
                         break;
 
@@ -295,24 +306,19 @@ public class PM {
     // method that asks for all information needed for case one
     public void visitData(Scanner scan) {
 
+        //NO USER VALIDATION IN FN AND LN BC IT DOESNT WORK
         System.out.println("What is the potential tenant's first name?");
-        if (scan.hasNext()) {
-            fN = scan.nextLine();
-        } else {
-            System.out.println("Not a string. Please try again.");
-            fN = scan.nextLine();
-        }
+     
+            fN = scan.next();
+        
 
         System.out.println("What is the potential tenant's last name?");
 
-        if (scan.hasNext()) {
-            lN = scan.nextLine();
-        } else {
-            System.out.println("Not a string. Please try again.");
-            lN = scan.nextLine();
-        }
+       
+            lN = scan.next();
+        
 
-        System.out.println("What is the potential tenant's phone number(xxxxxxxxxx)?");
+        System.out.println("What is the potential tenant's phone number(1xxxxxxxxx)?");
         phoneNum = scan.nextInt();
         String phoneN = String.valueOf(phoneNum);
         if (!(phoneN.matches("\\d{10}"))) {
@@ -324,7 +330,7 @@ public class PM {
         System.out.println("What is the potential tenant's SSN?(xxxxxxxxxx");
         SSN = scan.nextInt();
         String ssn = String.valueOf(SSN);
-        if (!(ssn.matches("\\d{9}"))) {
+        if (!(ssn.matches("\\d{10}"))) {
             System.out.println("You need 9 digits for the Social Security Number. Try again.\n\n");
             System.out.println("What is the potential tenant's SSN?(xxxxxxxxxx");
             SSN = scan.nextInt();
@@ -386,7 +392,7 @@ public class PM {
         monthRent = scan.nextInt();
         System.out.println("What was the tenant previous address?(Street name)");
         prev_add = mom.nextLine();
-        System.out.println("When does tenant expect to move in?");
+        System.out.println("When does tenant expect to move in?(yyyy-mm-dd)");
         String dayy = scan.next();
 
         if (!(dayy.matches("\\d{4}-\\d{2}-\\d{2}"))) {

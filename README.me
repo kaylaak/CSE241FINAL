@@ -18,6 +18,9 @@ an established database. We connect to oracle with a database already created to
 allow users to fully interact. We import java.sql.* which allows us to use SQL with
 the database we connected in conjuction with java. I also created the following files
 to represent each interface.
+
+Most user inputs has user validation.
+
     1. Properties Manager (PM.java)
         First, we connect the database inside this file, and then we give the user 4 options.
         Once the user selects an option we call then call each sql statement regarding each choice. I premade the sql statments in each method
@@ -26,9 +29,11 @@ to represent each interface.
         When the user selects Tenant, they are able to check payment status, make a payment,
         add a person to their rental unit, set a move out date or update data. 
         The same as PM.java, I will premake the SQL and add the user info that they want.
+
+        **WARNING** Tenant is not fully finished as I completed three other interfaces
     3. BusinessManager (BusinessManager.java)
         My last file is the BusinessManager. Unlike the other files BuinsessManager does not take
-        user input. You have three options and once selected entires will print out after a few user input.
+        user input as much. You have three options and once selected entires will print out after a few user input.
 
     4. NUMA Manager (NUMAManager.java)
         This file focuses on letting the NUMA Manager enter a building.
