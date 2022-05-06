@@ -1,3 +1,4 @@
+package kak524;
 import java.util.Scanner;
 import java.util.*;
 import java.sql.*;
